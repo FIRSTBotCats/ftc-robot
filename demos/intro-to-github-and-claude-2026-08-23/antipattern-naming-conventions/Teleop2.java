@@ -13,55 +13,58 @@ import java.util.List;
 @TeleOp
 public class Teleop2 extends LinearOpMode {
 
-    DcMotor m1;
-    DcMotor m2;
-    DcMotor m3;
-    Servo s1;
-    AprilTagProcessor a;
-    VisionPortal v;
-    boolean b = false;
+    // AprilTag ID on the goal — the shooter only fires when the camera sees this tag.
+    static final int GOAL_TAG_ID = 20;
+
+    DcMotor leftDrive;
+    DcMotor rightDrive;
+    DcMotor shooterMotor;
+    Servo loaderServo;
+    AprilTagProcessor aprilTag;
+    VisionPortal visionPortal;
+    boolean loaderOpen = false;
 
     @Override
     public void runOpMode() {
-        m1 = hardwareMap.get(DcMotor.class, "left");
-        m2 = hardwareMap.get(DcMotor.class, "right");
-        m3 = hardwareMap.get(DcMotor.class, "shooter");
-        s1 = hardwareMap.get(Servo.class, "loader");
+        leftDrive = hardwareMap.get(DcMotor.class, "left");
+        rightDrive = hardwareMap.get(DcMotor.class, "right");
+        shooterMotor = hardwareMap.get(DcMotor.class, "shooter");
+        loaderServo = hardwareMap.get(Servo.class, "loader");
 
-        a = AprilTagProcessor.easyCreateWithDefaults();
-        v = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), a);
+        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+        visionPortal = VisionPortal.easyCreateWithDefaults(
+                hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
 
         waitForStart();
 
         while (opModeIsActive()) {
-            m1.setPower(-gamepad1.left_stick_y);
-            m2.setPower(-gamepad1.right_stick_y);
+            leftDrive.setPower(-gamepad1.left_stick_y);
+            rightDrive.setPower(-gamepad1.right_stick_y);
 
-            List<AprilTagDetection> list1 = a.getDetections();
-            int x = 0;
-            for (AprilTagDetection d : list1) {
-                if (d.id == 20) {
-                    x = 1;
+            List<AprilTagDetection> detections = aprilTag.getDetections();
+            boolean goalTagVisible = false;
+            for (AprilTagDetection detection : detections) {
+                if (detection.id == GOAL_TAG_ID) {
+                    goalTagVisible = true;
                 }
             }
 
-            if (gamepad1.a && x == 1) {
-                m3.setPower(1);
+            if (gamepad1.a && goalTagVisible) {
+                shooterMotor.setPower(1);
             } else {
-                m3.setPower(0);
+                shooterMotor.setPower(0);
             }
 
-            if (gamepad1.b && !b) {
-                s1.setPosition(0.6);
-                b = true;
+            if (gamepad1.b && !loaderOpen) {
+                loaderServo.setPosition(0.6);
+                loaderOpen = true;
             }
             if (!gamepad1.b) {
-                s1.setPosition(0.2);
-                b = false;
+                loaderServo.setPosition(0.2);
+                loaderOpen = false;
             }
 
-            telemetry.addData("x", x);
+            telemetry.addData("goalTagVisible", goalTagVisible);
             telemetry.update();
         }
     }
