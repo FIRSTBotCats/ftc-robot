@@ -1,0 +1,210 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<variables>
+<variable id="O%_bw)_Fq3L|sm(+WwN3">X</variable>
+</variables>
+<block type="procedures_defnoreturn" id="WtpyD@tEu+EoY=P9iY,D" deletable="false" x="58" y="180">
+<field name="NAME">runOpMode</field>
+<comment pinned="false" h="141" w="577">This sample contains the bare minimum Blocks for any regular OpMode. The 3 blue
+Comment Blocks show where to place Initialization code (runs once, after touching the
+DS INIT button, and before touching the DS Start arrow), Run code (runs once, after
+touching Start), and Loop code (runs repeatedly while the OpMode is active, namely not
+Stopped).</comment>
+<data>{"commentPositionLeft":-20,"commentPositionTop":-169}</data>
+<statement name="STACK">
+<block type="comment" id="Lc#BFtj*NTB48YL;eBl.">
+<field name="COMMENT">Put initialization blocks here.</field>
+<next>
+<block type="variables_set" id="x1%e/|DqAuy?j)cre;T$">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+<value name="VALUE">
+<block type="math_number" id="qckmuF1b%vgu%UQ=mXf#">
+<field name="NUM">0</field>
+</block>
+</value>
+<next>
+<block type="servo_setProperty_Number" id="L]2,W5%nf+X=7~r1c;K1">
+<field name="IDENTIFIER">Servo1AsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"Servo1"}</data>
+<value name="VALUE">
+<shadow type="math_number">
+<field name="NUM">0</field>
+</shadow>
+<block type="variables_get" id="MHBR^);!a,qU`R45.tqD">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+</block>
+</value>
+<next>
+<block type="linearOpMode_waitForStart" id=":`$wN_ci`O;o6P0~.(+g">
+<next>
+<block type="controls_if" id="}Q?5mbxSO8Di;i!__6[y">
+<value name="IF0">
+<block type="linearOpMode_opModeIsActive" id=")o%YFX/#9kvv^sgXr4~5"/>
+</value>
+<statement name="DO0">
+<block type="comment" id="(rU-p_T_/B|vExcs}liL">
+<field name="COMMENT">Put run blocks here.</field>
+<next>
+<block type="controls_whileUntil" id="^0Kagy/e+Ea{rbZPv2G6">
+<field name="MODE">WHILE</field>
+<value name="BOOL">
+<block type="linearOpMode_opModeIsActive" id="e)cr{!2VIET83s,JWC.="/>
+</value>
+<statement name="DO">
+<block type="comment" id="Jh/;L$n@JuX8AQJDFCul">
+<field name="COMMENT">Put loop blocks here.</field>
+<next>
+<block type="controls_if" id="bS*^`/Gc|5uBu@;(@$K5">
+<value name="IF0">
+<block type="gamepad_getProperty_Boolean" id="xG)6vBuzF-F^pv67Z`H{">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">A</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<statement name="DO0">
+<block type="math_change" id="QMD*6A1rzYiVmi5wSxa-">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+<value name="DELTA">
+<shadow type="math_number" id="gUfFME$XA:cCS`{{f%j5">
+<field name="NUM">0.05</field>
+</shadow>
+</value>
+</block>
+</statement>
+<next>
+<block type="controls_if" id="+exMed.7YKa7SRFo{F6o">
+<value name="IF0">
+<block type="gamepad_getProperty_Boolean" id="M6qpP,fuX,t33Ix[[5B@">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">B</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<statement name="DO0">
+<block type="math_change" id="p8x~SsG/=3,Y9s~-`a7B">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+<value name="DELTA">
+<shadow type="math_number" id="TCc8Bv{xIN,ObncJ9u7Y">
+<field name="NUM">-0.05</field>
+</shadow>
+</value>
+</block>
+</statement>
+<next>
+<block type="comment" id=";.9A!{Aqjb$89YTWNo)P">
+<field name="COMMENT">Set to range</field>
+<next>
+<block type="controls_if" id="@F0`:@ApR^O%zk*60QTp">
+<value name="IF0">
+<block type="logic_compare" id="dy[#WJqk{a[CzaycU-9k">
+<field name="OP">GT</field>
+<value name="A">
+<block type="variables_get" id="7WFl466SR_`PIGTRI(sW">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+</block>
+</value>
+<value name="B">
+<block type="math_number" id="Ro}#+@fj{L6GETDOQK-I">
+<field name="NUM">1</field>
+</block>
+</value>
+</block>
+</value>
+<statement name="DO0">
+<block type="variables_set" id=";B|a;,fCWGdhjy@pe@*i">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+<value name="VALUE">
+<block type="math_number" id="S}UwP8th@!QFMatH?K/i">
+<field name="NUM">1</field>
+</block>
+</value>
+</block>
+</statement>
+<next>
+<block type="controls_if" id="d1nXpke]8=D3~atb_pVe">
+<value name="IF0">
+<block type="logic_compare" id="HT$R^F+p`b@mU;39sVu|">
+<field name="OP">LT</field>
+<value name="A">
+<block type="variables_get" id="eMAm,hAVq/drk_3NGGvk">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+</block>
+</value>
+<value name="B">
+<block type="math_number" id="m*ovhsRiib`aF7UHQKfV">
+<field name="NUM">0</field>
+</block>
+</value>
+</block>
+</value>
+<statement name="DO0">
+<block type="variables_set" id="LBhJ{|yUl5gR-6D^}bZd">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+<value name="VALUE">
+<block type="math_number" id="M#2`=q_TDg+mZm73UU,M">
+<field name="NUM">0</field>
+</block>
+</value>
+</block>
+</statement>
+<next>
+<block type="servo_setProperty_Number" id="RuArATmZ]u[E6AlOzhVi">
+<field name="IDENTIFIER">Servo1AsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"Servo1"}</data>
+<value name="VALUE">
+<shadow type="math_number" id=")}xc706_ux7hJxjncZ^t">
+<field name="NUM">0</field>
+</shadow>
+<block type="variables_get" id="|]LUjZu#*wfG`RHw|dpH">
+<field name="VAR" id="O%_bw)_Fq3L|sm(+WwN3">X</field>
+</block>
+</value>
+<next>
+<block type="comment" id="g{pNmgHjn$~;%sSw(3l(">
+<field name="COMMENT">Small delay</field>
+<next>
+<block type="linearOpMode_sleep_Number" id="O0m1r}l:[Ex9mh;gDMof">
+<value name="MILLISECONDS">
+<shadow type="math_number" id="i:{tjXiW63U]4SACCdo%">
+<field name="NUM">100</field>
+</shadow>
+</value>
+<next>
+<block type="telemetry_update" id="exvivmft-pX$n!1,8Ea$"/>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</xml><?xml version='1.0' encoding='UTF-8' standalone='yes' ?><Extra><OpModeMeta flavor="TELEOP" group="" /><Enabled value="true" /></Extra>
