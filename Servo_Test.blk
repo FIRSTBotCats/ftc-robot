@@ -1,0 +1,90 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="procedures_defnoreturn" id="WtpyD@tEu+EoY=P9iY,D" deletable="false" x="50" y="50">
+<field name="NAME">runOpMode</field>
+<comment pinned="false" h="45" w="532">This function is executed when this Op Mode is selected from the Driver Station.</comment>
+<statement name="STACK">
+<block type="comment" id="Lc#BFtj*NTB48YL;eBl.">
+<field name="COMMENT">Put initialization blocks here.</field>
+<next>
+<block type="servo_setProperty_Number" id="/4D_8$-IaNxj87Pp3?HM">
+<field name="IDENTIFIER">testservoAsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"test servo"}</data>
+<value name="VALUE">
+<shadow type="math_number" id="q?@h9erfC3lwYAR@!RdC">
+<field name="NUM">0</field>
+</shadow>
+</value>
+<next>
+<block type="linearOpMode_waitForStart" id=":`$wN_ci`O;o6P0~.(+g">
+<next>
+<block type="servo_setProperty_Number" id="^K)Vz):g,B4ak=d2%p:I">
+<field name="IDENTIFIER">testservoAsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"test servo"}</data>
+<value name="VALUE">
+<shadow type="math_number" id="2=i%Pi=`n|B@mw5%X{ey">
+<field name="NUM">0.5</field>
+</shadow>
+</value>
+<next>
+<block type="linearOpMode_sleep_Number" id="h(xj_$HWoWsO)E01+6,*">
+<value name="MILLISECONDS">
+<shadow type="math_number" id="@Qv|b$S]*aXPe:M=eB(^">
+<field name="NUM">1000</field>
+</shadow>
+</value>
+<next>
+<block type="servo_setProperty_Number" id="o0)`=X[tk~Qu1X95*|u^">
+<field name="IDENTIFIER">testservoAsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"test servo"}</data>
+<value name="VALUE">
+<shadow type="math_number" id="jesPiUDW6pxOip[ycctF">
+<field name="NUM">1</field>
+</shadow>
+</value>
+<next>
+<block type="linearOpMode_sleep_Number" id="$P749I6$rX:HE:+78:a]">
+<value name="MILLISECONDS">
+<shadow type="math_number" id="{%#%/:3`]c8kZVnS!~H8">
+<field name="NUM">1000</field>
+</shadow>
+</value>
+<next>
+<block type="servo_setProperty_Number" id="TcLorLWXK@*{wpk3K=ia">
+<field name="IDENTIFIER">testservoAsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"test servo"}</data>
+<value name="VALUE">
+<shadow type="math_number" id="l=@4ewZ{wM1DA12!ewQV">
+<field name="NUM">-0.5</field>
+</shadow>
+</value>
+<next>
+<block type="linearOpMode_sleep_Number" id="RhQgx:X7^XZofl1S?l^}">
+<value name="MILLISECONDS">
+<shadow type="math_number" id="lrsq_JJvjYoip]K=Pac}">
+<field name="NUM">1000</field>
+</shadow>
+</value>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</xml><?xml version='1.0' encoding='UTF-8' standalone='yes' ?><Extra><OpModeMeta flavor="AUTONOMOUS" group="" /><Enabled value="true" /></Extra>

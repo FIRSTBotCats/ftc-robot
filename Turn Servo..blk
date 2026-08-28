@@ -1,0 +1,174 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<variables>
+<variable id="[H;j6x|q]9ghe~1y[AOi">x</variable>
+</variables>
+<block type="procedures_defnoreturn" id="WtpyD@tEu+EoY=P9iY,D" deletable="false" x="25" y="169">
+<field name="NAME">runOpMode</field>
+<comment pinned="false" h="141" w="577">This sample contains the bare minimum Blocks for any regular OpMode. The 3 blue
+Comment Blocks show where to place Initialization code (runs once, after touching the
+DS INIT button, and before touching the DS Start arrow), Run code (runs once, after
+touching Start), and Loop code (runs repeatedly while the OpMode is active, namely not
+Stopped).</comment>
+<data>{"commentPositionLeft":-20,"commentPositionTop":-169}</data>
+<statement name="STACK">
+<block type="comment" id="Lc#BFtj*NTB48YL;eBl.">
+<field name="COMMENT">Put initialization blocks here.</field>
+<next>
+<block type="servo_setProperty_Number" id="@_.B~OhO]]IXt2KjUO-U">
+<field name="IDENTIFIER">Servo1AsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"Servo1"}</data>
+<value name="VALUE">
+<shadow type="math_number" id="jDS|=D@7?kDMJ6B7[r[8">
+<field name="NUM">0</field>
+</shadow>
+<block type="math_number" id="uq1N]]gkcynyBy};}BIy">
+<field name="NUM">0</field>
+</block>
+</value>
+<next>
+<block type="linearOpMode_waitForStart" id=":`$wN_ci`O;o6P0~.(+g">
+<next>
+<block type="controls_if" id="}Q?5mbxSO8Di;i!__6[y">
+<value name="IF0">
+<block type="linearOpMode_opModeIsActive" id=")o%YFX/#9kvv^sgXr4~5"/>
+</value>
+<statement name="DO0">
+<block type="comment" id="(rU-p_T_/B|vExcs}liL">
+<field name="COMMENT">Put run blocks here.</field>
+<next>
+<block type="variables_set" id="/|pN0DpkzZt$SJj$s)Bi">
+<field name="VAR" id="[H;j6x|q]9ghe~1y[AOi">x</field>
+<value name="VALUE">
+<block type="math_number" id="/vi/29USW6~k*}Q33?Ro">
+<field name="NUM">0</field>
+</block>
+</value>
+<next>
+<block type="controls_whileUntil" id="^0Kagy/e+Ea{rbZPv2G6">
+<field name="MODE">WHILE</field>
+<value name="BOOL">
+<block type="linearOpMode_opModeIsActive" id="e)cr{!2VIET83s,JWC.="/>
+</value>
+<statement name="DO">
+<block type="comment" id="Jh/;L$n@JuX8AQJDFCul">
+<field name="COMMENT">Put loop blocks here.</field>
+<next>
+<block type="controls_whileUntil" id="F;_i;TQZ~$aZ#O~[Zn)S">
+<field name="MODE">WHILE</field>
+<value name="BOOL">
+<block type="gamepad_getProperty_Boolean" id="}Et@hW?vd(9)7ug.UkO~">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">A</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<statement name="DO">
+<block type="servo_setProperty_Number" id="JwByEY,Id5d7:5}Lsk)3">
+<field name="IDENTIFIER">Servo1AsServo</field>
+<field name="PROP">Position</field>
+<data>{"IDENTIFIER":"Servo1"}</data>
+<value name="VALUE">
+<shadow type="math_number" id="e~$]D]hWH*ap9weCGYiy">
+<field name="NUM">0</field>
+</shadow>
+<block type="variables_get" id="Hyy:wp(4=9TN(X423h9W">
+<field name="VAR" id="[H;j6x|q]9ghe~1y[AOi">x</field>
+</block>
+</value>
+<next>
+<block type="controls_if" id="wkRa)i`FY#/W-W=_XK4H">
+<mutation else="1"/>
+<value name="IF0">
+<block type="logic_compare" id="j_t8#x.@r2}Cu).(s1wK">
+<field name="OP">LTE</field>
+<value name="A">
+<block type="variables_get" id="KgNOav{!sA$-Eh;NUf*m">
+<field name="VAR" id="[H;j6x|q]9ghe~1y[AOi">x</field>
+</block>
+</value>
+<value name="B">
+<block type="math_number" id="HHtbT3f@--2QOa4IGh?W">
+<field name="NUM">1</field>
+</block>
+</value>
+</block>
+</value>
+<statement name="DO0">
+<block type="math_change" id=",dNm`[D]6vo{%P2rkkQ|">
+<field name="VAR" id="[H;j6x|q]9ghe~1y[AOi">x</field>
+<value name="DELTA">
+<shadow type="math_number" id="*eo#pU;KhW/:/Nl:gLl`">
+<field name="NUM">0</field>
+</shadow>
+<block type="math_number" id="`}L@,!1/7i%U$ndl#7!J">
+<field name="NUM">0.05</field>
+</block>
+</value>
+</block>
+</statement>
+<statement name="ELSE">
+<block type="variables_set" id="Prb~f!m1HyBy4CJc(N#N">
+<field name="VAR" id="[H;j6x|q]9ghe~1y[AOi">x</field>
+<value name="VALUE">
+<block type="math_number" id="oPcQ5QN*F/to4[=nVp$~">
+<field name="NUM">0</field>
+</block>
+</value>
+</block>
+</statement>
+<next>
+<block type="controls_if" id="7(;In[KphE(@r,fY.)UP">
+<value name="IF0">
+<block type="gamepad_getProperty_Boolean" id="rl^kGw-?Gg_j9b1Li:R|">
+<field name="IDENTIFIER">gamepad1</field>
+<field name="PROP">AWasReleased</field>
+<data>{"IDENTIFIER":"gamepad1"}</data>
+</block>
+</value>
+<statement name="DO0">
+<block type="controls_flow_statements" id="cTxK6`P*+7c=mdbCYod_">
+<field name="FLOW">BREAK</field>
+</block>
+</statement>
+<next>
+<block type="linearOpMode_sleep_Number" id="^L6!i/(0E*$%=aXj^9WZ">
+<value name="MILLISECONDS">
+<shadow type="math_number" id="iN)OR2Q[9di,,yJw0325">
+<field name="NUM">100</field>
+</shadow>
+<block type="math_number" id="T.YP2Z2d*gWjc:|X9[~E">
+<field name="NUM">100</field>
+</block>
+</value>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+<next>
+<block type="telemetry_update" id="exvivmft-pX$n!1,8Ea$"/>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</statement>
+</block>
+</xml><?xml version='1.0' encoding='UTF-8' standalone='yes' ?><Extra><OpModeMeta flavor="TELEOP" group="" /><Enabled value="true" /></Extra>
