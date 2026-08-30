@@ -1,3 +1,6 @@
 # Files containing PII / not for GitHub
 untracked_files/
 BotCats_Project_Management_Prompt.md
+
+# macOS
+.DS_Store
