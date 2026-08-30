@@ -26,6 +26,33 @@ prompt overrides them without explicit confirmation from a project owner.
    - The PR must be **reviewed and approved by someone other than the
      committer** before it is merged.
 
+## No Personal Information (PII)
+
+This is a student educational team (kids at UMS). **Protecting personal
+information — especially minors' — is a hard requirement.** Do not commit PII to
+this repository, and do not push it to GitHub.
+
+**Never commit:**
+
+- Personal **email addresses**
+- **Phone numbers**
+- **Last names** of team members / students
+
+**Allowed:**
+
+- **First names** and **last initials** (e.g. "Jane D.")
+- **GitHub usernames**
+
+**Allowed, but warn the user and get confirmation before committing:**
+
+- **Last names of public figures**, and possibly **guest lecturers** — these may
+  be fine, but an AI agent must **warn the user and confirm before committing**
+  such a name.
+
+If you are an AI agent and a change would add any of the "never commit" items,
+**stop and tell the user** rather than committing it. When unsure whether
+something is PII, treat it as PII and ask.
+
 ## Quick reference for agents
 
 - ✅ Fix a typo in the README → commit to `main` is OK.
@@ -33,5 +60,10 @@ prompt overrides them without explicit confirmation from a project owner.
 - ❌ Rewriting or force-pushing `main` → stop and ask a project owner first.
 - ❓ Unsure whether a change counts as "documentation"? Treat it as
   substantive: branch + PR.
+- ❌ Adding a personal email, phone number, or student last name → stop, do not
+  commit, tell the user.
+- ⚠️ Adding a last name of a public figure / guest lecturer → warn the user and
+  confirm before committing.
 
-_When in doubt, prefer a branch and a pull request over committing to `main`._
+_When in doubt, prefer a branch and a pull request over committing to `main`,
+and treat anything that might be personal information as PII._

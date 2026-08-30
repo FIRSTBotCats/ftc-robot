@@ -9,3 +9,8 @@ The full contribution and **Git Rules** for this repository live in
 2. **No commits directly to `main` except documentation.**
 3. **All other substantive changes** go in a **new branch** via a **pull
    request**, reviewed by **someone other than the committer**.
+
+**No PII (mandatory):** Never commit personal email addresses, phone numbers, or
+student last names. First names + last initials and GitHub usernames are OK. Last
+names of public figures / guest lecturers may be OK — **warn the user and confirm
+before committing** them.
