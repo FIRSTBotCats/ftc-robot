@@ -4,11 +4,8 @@ A running list of publicly available 3D models that may be useful for the
 BotCats robot and pit. All links are to public model-sharing sites
 (MakerWorld, Printables, Thingiverse).
 
-> **Note:** MakerWorld and Printables titles below were expanded from the
-> source-page URLs (those sites block automated fetching behind Cloudflare, so
-> they couldn't be opened here) — confirm exact titles and designer credit on
-> the linked page. Thingiverse titles were provided by the team. Always check
-> the license on each model before printing/redistributing.
+> **Note:** Always check the license on each model before printing or
+> redistributing.
 
 ## Electronics & control-system mounts
 
