@@ -5,43 +5,61 @@ WiFi access point. To use the browser-based Program & Manage interface
 (OnBotJava / Blocks) you normally join that WiFi — which means the laptop loses
 its internet connection while connected to the robot.
 
-This doc lists the ways other FTC teams solve that, ranked by fit for our
-"push files through the web interface" workflow.
+This doc lists the ways other FTC teams solve that, and which ones actually fit
+our Mac + "push files through the web interface" workflow.
 
 ## Why the internet drops
 
 The REV Control Hub is an Android 7.1 device (Rockchip RK3328, Realtek RTL8821CU
-WiFi) running the Robot Controller app. It broadcasts a WiFi access point named
-`TEAMNUMBER-RC` and serves everything at:
+WiFi) running the Robot Controller app. It broadcasts a WiFi access point (named
+something like `TEAMNUMBER-RC`, or starting with `FTC-` / `FIRST-` depending on
+SDK/OS version) and serves everything at:
 
 - **AP IP address:** `192.168.43.1`
 - **Program & Manage web interface (OnBotJava / Blocks):** `http://192.168.43.1:8080`
 
-When the laptop joins the `-RC` access point, it's on the robot's isolated
+When the laptop joins that access point, it's on the robot's isolated
 network with no path to the internet. That's the tradeoff we're hitting.
 
-The key insight: the fix most teams use is **not WiFi at all** — it's the
-**USB-C cable + ADB (Android Debug Bridge)**. The laptop reaches the robot over
-USB while its WiFi stays connected to the internet.
+> **We are a Mac team.** That matters here: REV's own tool for reaching the
+> web console over USB is **Windows-only** (see below), so our best *confirmed*
+> option is a second WiFi adapter. A USB-C + ADB shortcut looks promising but is
+> **not yet verified on our hardware** — it's flagged as such.
 
-## Recommended solutions (ranked)
+## Solutions
 
-### 1. REV Hardware Client over USB-C  ← best fit
+### ✅ Second WiFi adapter — confirmed, works on macOS  ← recommended for us
 
-The official REV desktop app (available for macOS). Plug the Control Hub into the
-laptop with a USB-C cable and:
+Add a cheap (~$15) USB WiFi dongle so the laptop has two WiFi interfaces:
 
-- It auto-connects ADB to the hub.
-- Its **"Program & Manage"** button opens the OnBotJava / Blocks web interface
-  **over the cable** — the laptop's WiFi/internet is never touched.
-- Bonus: it also handles Control Hub OS / firmware updates, WiFi reconfiguration,
-  and log viewing.
+- Built-in WiFi → the internet.
+- USB WiFi dongle → the robot's access point.
 
-This is the cleanest match for our current web-interface workflow.
+macOS routes `192.168.43.x` traffic to the dongle and everything else to the
+internet WiFi automatically, **as long as the robot interface has no default
+gateway**. Set **System Settings ▸ Network ▸ Set Service Order** so the internet
+WiFi is listed above the dongle. This keeps our exact browser/Blocks workflow and
+relies only on standard OS networking — nothing FTC-specific has to cooperate.
 
-### 2. Raw ADB port-forward (manual equivalent)
+### ✅ REV Hardware Client over USB-C — confirmed, but **Windows-only**
 
-Same result as the REV Hardware Client, without the GUI. With `adb` installed:
+REV's official desktop app can open the Program & Manage (OnBotJava / Blocks)
+console **over USB-C**, no robot WiFi needed. Per REV's docs: *"You are able to
+connect to a Control Hub over Wi-Fi or directly through USB-C,"* then use the
+**Program and Manage** tab. It also does OS/firmware updates, WiFi reconfig, and
+log viewing.
+
+**Catch:** the REV Hardware Client ships **for Windows only** (all installers are
+`.exe`, Windows 10+). It is *not* available for macOS. This is a good option only
+if someone has a Windows laptop or a Windows VM (Parallels). Download:
+<https://docs.revrobotics.com/rev-hardware-client/>
+
+### ⚠️ Raw ADB port-forward over USB-C — plausible, **UNVERIFIED on our hardware**
+
+This *should* be the Mac equivalent of the Hardware Client's USB console (it is
+almost certainly how that client tunnels port 8080 internally), but **no FTC/REV
+documentation confirms it, and we have not tested it.** Do not rely on it until
+we've proven it on the robot.
 
 ```sh
 # macOS: install the platform tools once
@@ -49,23 +67,14 @@ brew install android-platform-tools
 
 # with the hub connected over USB-C:
 adb devices                       # confirm the hub is listed
-adb forward tcp:8080 tcp:8080     # tunnel the hub's web server over USB
+adb forward tcp:8080 tcp:8080     # ATTEMPT to tunnel the hub's web server over USB
 ```
 
-Then open **`http://localhost:8080`** in the browser. The laptop keeps its normal
-WiFi internet the whole time.
-
-### 3. Second WiFi adapter (fully wireless, keeps internet)
-
-If we'd rather not use a cable, add a cheap (~$15) USB WiFi dongle:
-
-- Built-in WiFi → the internet.
-- USB WiFi dongle → the robot's `TEAMNUMBER-RC` access point.
-
-macOS routes `192.168.43.x` traffic to the dongle and everything else to the
-internet WiFi automatically, **as long as the robot interface has no default
-gateway**. Set **System Settings ▸ Network ▸ Set Service Order** so the internet
-WiFi is listed above the dongle.
+Then try **`http://localhost:8080`**. It only works if the Robot Controller's web
+server is reachable on the device's loopback interface — which is the open
+question. If `localhost:8080` doesn't load, this approach is out; fall back to the
+second WiFi adapter. (Deploying **Android Studio** Java code over USB via ADB *is*
+confirmed to work on macOS — but that's for Java, not our Blocks/web workflow.)
 
 ## Approaches that do NOT work
 
@@ -78,22 +87,35 @@ WiFi is listed above the dongle.
   *be* the access point.
 - **DHCP / RNDIS ethernet-over-USB (the way an xTool laser vends a network).**
   The Control Hub's USB-C port exposes ADB, not a USB-ethernet gadget, so this
-  exact mechanism isn't available — but ADB (solutions 1 and 2 above) achieves
-  the same outcome.
+  exact mechanism isn't available. (Whether ADB port-forwarding reaches the web
+  console — the section above — is the open question to test.)
 
-## To test once the hardware is connected
+## To verify on the hardware (resolves the open question)
 
-1. `brew install android-platform-tools` (or install the REV Hardware Client).
-2. Connect the Control Hub via USB-C.
-3. `adb devices` — confirm the hub appears.
+The one unconfirmed claim is whether the web console is reachable over USB via
+ADB. Test it directly:
+
+1. `brew install android-platform-tools`.
+2. Connect the Control Hub via USB-C, power it on.
+3. `adb devices` — confirm the hub appears (this alone proves ADB-over-USB works).
 4. `adb forward tcp:8080 tcp:8080`, then open `http://localhost:8080`.
-5. Confirm the laptop still has internet on its WiFi while programming.
+   - **Loads the OnBotJava/Blocks console →** the ADB shortcut works; document it
+     and promote it above the WiFi-adapter method.
+   - **Does not load →** the RC web server isn't on loopback; drop this approach
+     and use the second WiFi adapter.
+5. Either way, confirm the laptop still has internet on its built-in WiFi.
 
 > Note: on a managed/work laptop, installing the REV Hardware Client or
 > `platform-tools` may be subject to MDM restrictions.
 
 ## Sources
 
+- REV Robotics docs — connecting to the robot control console (Wi-Fi *or* USB-C
+  via the Hardware Client), and the Hardware Client (Windows-only):
+  <https://docs.revrobotics.com/duo-control/menu/control-hub-gs/connect-to-the-control-hub-robot-control-console.md>,
+  <https://docs.revrobotics.com/rev-hardware-client/>
 - Game Manual 0 — <https://gm0.org> (Using Android Studio; control-system internals)
-- REV Robotics docs — <https://docs.revrobotics.com/rev-hardware-client/>
 - FIRST Tech Challenge docs — <https://ftc-docs.firstinspires.org>
+
+_Note: the raw `adb forward` web-console shortcut is **not** documented by any of
+these sources; it is an untested inference pending the hardware check above._
