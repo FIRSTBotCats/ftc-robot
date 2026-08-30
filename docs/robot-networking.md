@@ -5,8 +5,9 @@ WiFi access point. To use the browser-based Program & Manage interface
 (OnBotJava / Blocks) you normally join that WiFi — which means the laptop loses
 its internet connection while connected to the robot.
 
-This doc lists the ways other FTC teams solve that, and which ones actually fit
-our Mac + "push files through the web interface" workflow.
+This doc lists the ways other FTC teams solve that, and which ones fit our
+"push files through the web interface" workflow. **Our team uses a mix of Mac and
+Windows laptops**, so options are called out by platform.
 
 ## Why the internet drops
 
@@ -21,23 +22,27 @@ SDK/OS version) and serves everything at:
 When the laptop joins that access point, it's on the robot's isolated
 network with no path to the internet. That's the tradeoff we're hitting.
 
-> **We are a Mac team.** The best option for us is **ADB port-forwarding over
-> USB-C** — verified working on our own Control Hub (see below). It keeps the
-> laptop's built-in WiFi on the internet the whole time. A second WiFi adapter is
-> a solid no-USB alternative. REV's own desktop tool also does this over USB but
-> is **Windows-only**.
+> **Pick by platform.** On **Mac**, use **ADB port-forwarding over USB-C** —
+> verified working on our own Control Hub (see below); it keeps the laptop's
+> built-in WiFi on the internet the whole time. The same ADB trick works on
+> **Windows** too, but Windows users may prefer REV's official **Hardware
+> Client** (Windows-only, GUI). A **second WiFi adapter** is a no-USB alternative
+> that works on either platform.
 
 ## Solutions
 
 ### ✅ ADB port-forward over USB-C — confirmed on our hardware  ← recommended
 
-Tunnel the Control Hub's web server to your Mac over the USB-C cable. Your WiFi
-never touches the robot, so the laptop keeps full internet the entire time.
-**Verified on our Control Hub v1.0 (Rockchip RK3328).**
+Tunnel the Control Hub's web server to your laptop over the USB-C cable. Your
+WiFi never touches the robot, so the laptop keeps full internet the entire time.
+Works on **both Mac and Windows**; **verified on our Control Hub v1.0 (Rockchip
+RK3328)** on macOS.
 
 ```sh
-# macOS: install the platform tools once (note: the CASK, not the formula)
-brew install --cask android-platform-tools
+# Install the platform tools once:
+#   macOS:   brew install --cask android-platform-tools   (note: the CASK, not the formula)
+#   Windows: download "SDK Platform Tools" from developer.android.com/tools/releases/platform-tools
+#            (Windows also needs the REV/Google USB driver — easiest via the REV Hardware Client)
 
 # with the hub connected over USB-C and powered on (12V battery):
 adb devices                       # confirm the hub is listed as "device"
@@ -68,32 +73,33 @@ List of devices attached
 f9c3da48d1816f2b  device  product:ch_v1_box model:Control_Hub_v1_0 device:rk3328_box transport_id:2
 ```
 
-### ✅ Second WiFi adapter — confirmed, works on macOS  ← no-USB alternative
+### ✅ Second WiFi adapter — confirmed on macOS  ← no-USB alternative (either platform)
 
 Add a cheap (~$15) USB WiFi dongle so the laptop has two WiFi interfaces:
 
 - Built-in WiFi → the internet.
 - USB WiFi dongle → the robot's access point.
 
-macOS routes `192.168.43.x` traffic to the dongle and everything else to the
+The OS routes `192.168.43.x` traffic to the dongle and everything else to the
 internet WiFi automatically, **as long as the robot interface has no default
-gateway**. Set **System Settings ▸ Network ▸ Set Service Order** so the internet
-WiFi is listed above the dongle. This keeps our exact browser/Blocks workflow and
+gateway**. On macOS, set **System Settings ▸ Network ▸ Set Service Order** so the
+internet WiFi is listed above the dongle (Windows has an equivalent interface
+metric / adapter priority). This keeps the exact browser/Blocks workflow and
 relies only on standard OS networking — nothing FTC-specific has to cooperate.
 Good when you'd rather not tether the laptop to the robot with a cable.
 
-### ✅ REV Hardware Client over USB-C — confirmed, but **Windows-only**
+### ✅ REV Hardware Client over USB-C — confirmed, **Windows only**  ← good option for our Windows users
 
 REV's official desktop app can open the Program & Manage (OnBotJava / Blocks)
 console **over USB-C**, no robot WiFi needed. Per REV's docs: *"You are able to
 connect to a Control Hub over Wi-Fi or directly through USB-C,"* then use the
 **Program and Manage** tab. It also does OS/firmware updates, WiFi reconfig, and
-log viewing.
+log viewing — a friendly GUI over the same USB connection.
 
-**Catch:** the REV Hardware Client ships **for Windows only** (all installers are
-`.exe`, Windows 10+). It is *not* available for macOS — which is why the raw ADB
-approach above is our Mac equivalent (it's the same USB tunnel the client uses
-internally). Only relevant if someone has a Windows laptop or VM. Download:
+**Platform:** the REV Hardware Client ships **for Windows only** (all installers
+are `.exe`, Windows 10+); there is no macOS build. It's a solid choice for our
+**Windows** team members. **Mac** users get the same USB console via the raw ADB
+approach above (it's the same USB tunnel the client uses internally). Download:
 <https://docs.revrobotics.com/rev-hardware-client/>
 
 ## Approaches that do NOT work
@@ -110,7 +116,9 @@ internally). Only relevant if someone has a Windows laptop or VM. Download:
   port-forward above achieves the same end result (web console over USB) through
   a different mechanism.
 
-## Quick start (recommended path)
+## Quick start
+
+**Mac (recommended path):**
 
 1. `brew install --cask android-platform-tools`.
 2. Connect the Control Hub via USB-C (real data cable, fully seated — see the
@@ -118,6 +126,10 @@ internally). Only relevant if someone has a Windows laptop or VM. Download:
 3. `adb devices` — confirm the hub appears as `device`.
 4. `adb forward tcp:8080 tcp:8080`, then open `http://localhost:8080`.
 5. The laptop keeps internet on its built-in WiFi throughout.
+
+**Windows:** install the REV Hardware Client, connect over USB-C, and use its
+**Program and Manage** tab (or use `adb` as above with the Google/REV USB driver
+the client installs).
 
 > Note: on a managed/work laptop, installing the REV Hardware Client or
 > `platform-tools` may be subject to MDM restrictions.
