@@ -26,9 +26,9 @@ BotCats robot and pit. All links are to public model-sharing sites
 - **REV Robotics FTC Driver Station Case** — Thingiverse
   <https://www.thingiverse.com/thing:4911578>
   Enclosure/case for the FTC driver station phone.
-  **Status: printed by the team.** ⚠️ This model **requires supports** to print.
-  A support-free alternative would be preferable — **TODO: find a driver
-  station case that prints without supports.**
+  **Status: Printed by the team.** ⚠️ This model requires supports to print and TPU
+  supports are difficult to remove. An alternative model may be preferable. 
+  **TODO: find a driver station case that prints without supports.**
 
 ## Robot markings / inspection
 
