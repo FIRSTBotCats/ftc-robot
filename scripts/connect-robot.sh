@@ -19,7 +19,7 @@ set -uo pipefail
 
 # The hub always serves its console on 8080; only the laptop-side port varies.
 HUB_PORT=8080
-LOCAL_PORT=8080
+LOCAL_PORT=30521
 OPEN_BROWSER=true
 STOP_ONLY=false
 
