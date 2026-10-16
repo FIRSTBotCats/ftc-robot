@@ -13,7 +13,7 @@ Windows laptops**, so options are called out by platform.
 
 The REV Control Hub is an Android 7.1 device (Rockchip RK3328, Realtek RTL8821CU
 WiFi) running the Robot Controller app. It broadcasts a WiFi access point (named
-something like `TEAMNUMBER-RC`, or starting with `FTC-` / `FIRST-` depending on
+something like `TEAMNUMBER-RC` (currently `30521-RC`), or starting with `FTC-` / `FIRST-` depending on
 SDK/OS version) and serves everything at:
 
 - **AP IP address:** `192.168.43.1`
