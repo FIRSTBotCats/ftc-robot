@@ -53,10 +53,37 @@ If you are an AI agent and a change would add any of the "never commit" items,
 **stop and tell the user** rather than committing it. When unsure whether
 something is PII, treat it as PII and ask.
 
+## Robot Code Backups
+
+**The robot must never have the only copy of our code.** Code edited directly
+on the Control Hub (Blocks or OnBotJava in the browser) exists only on the hub
+until it is backed up. A hub reset, reflash, or failure loses it. See
+[`docs/why-we-back-up.md`](docs/why-we-back-up.md) for why.
+
+- **Back up with `./scripts/backup-hub.sh`** (robot plugged in over USB-C). It
+  mirrors every Blocks program and OnBotJava file into `hub_backup/`, commits on
+  a new `hub-backup-<date>` branch without touching the current checkout,
+  pushes, and opens a PR. With no internet, use `--no-push` and push later.
+- **Remind the user to back up** when they mention editing code on the robot,
+  finishing a meeting, or leaving an event, and before any hub reset, reflash,
+  or software update.
+- **Never hand-edit `hub_backup/`.** The script replaces that whole folder on
+  every run. Code the team writes and reviews goes in `current_season/`.
+- **`hub_backup/` shows what was on the robot at the last backup**, not
+  necessarily what's on it now. If it differs from `current_season/`, point
+  that out: someone changed the robot without updating GitHub, or GitHub has
+  code that hasn't been uploaded yet.
+- **Don't back up a freshly reset hub.** The script refuses when the hub has no
+  code; don't work around that. The last good backup is still on GitHub.
+
 ## Quick reference for agents
 
 - ✅ Fix a typo in the README → commit to `main` is OK.
 - ✅ Change robot code / OpModes → new branch, PR, someone else reviews.
+- ✅ Code was changed on the robot → run `./scripts/backup-hub.sh` (or remind
+  the user to).
+- ❌ Hand-editing files in `hub_backup/` → don't; edit `current_season/`
+  instead.
 - ❌ Rewriting or force-pushing `main` → stop and ask a project owner first.
 - ❓ Unsure whether a change counts as "documentation"? Treat it as
   substantive: branch + PR.
