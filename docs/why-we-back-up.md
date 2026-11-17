@@ -24,17 +24,12 @@ wrote a brand-new Autonomous. For most of that day, **the code we competed with
 existed in exactly one place: the Control Hub.** If the hub had been zapped by
 static, dropped, or reset, that code would have been gone.
 
-**🚧 The new Autonomous wasn't finished either.** It only drove out and
-strafed left. If the robot didn't end up in the parking zone, that could have
-cost us points. A teammate reviewing a pull request might have spotted that
-before the match.
 
 **🐛 There was also a hidden bug in it.** The fix added "press Cross to stop the
 OpMode." The robot treats **Cross and A as the same button** (Cross is A on a
 PlayStation-style controller). So the button meant to clear a jam could also
-end TeleOp in the middle of a match. Nobody caught it, because no one else ever
-saw the code. It never went through GitHub, so there was no pull request and no
-second pair of eyes.
+end TeleOp in the middle of a match. Nobody caught it, because it never went 
+through GitHub, so there was no pull request and nonsecond pair of eyes.
 
 ---
 
