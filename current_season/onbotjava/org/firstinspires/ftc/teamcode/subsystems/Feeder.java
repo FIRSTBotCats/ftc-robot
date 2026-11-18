@@ -56,6 +56,6 @@ public class Feeder {
     }
 
     public void addTelemetry(Telemetry telemetry) {
-        telemetry.addData("Feeder", feeding ? "FEEDING" : "rest");
+        telemetry.addData("Feeder", feeding ? "Feeding" : "Rest");
     }
 }
