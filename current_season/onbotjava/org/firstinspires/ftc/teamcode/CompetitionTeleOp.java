@@ -20,11 +20,16 @@ import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
  *   Right stick X    turn
  *   D-pad            slow nudge (half speed) forward/back/left/right
  *   Right bumper     toggle slow mode
- *   Right trigger    launcher on/off
- *   A                launcher reverse on/off (clear a jam)
+ *   Right trigger    launcher: stop / spin, alternating
+ *   A                launcher: stop / full reverse, alternating
  *   B                feed one game piece into the launcher
- *   Left trigger     intake on/off
- *   Left bumper      intake reverse (eject) on/off
+ *   Left trigger     intake: run / stop, alternating
+ *   Left bumper      intake: eject / stop, alternating
+ *
+ * Every toggle button keeps its OWN on/off memory, exactly like the Blocks
+ * version, so each button does what the driver is used to. For example,
+ * pressing A always alternates between "stop" and "reverse", no matter what
+ * the right trigger did in between.
  */
 @TeleOp(name = CompetitionTeleOp.NAME, group = "Competition")
 public class CompetitionTeleOp extends LinearOpMode {
@@ -41,6 +46,16 @@ public class CompetitionTeleOp extends LinearOpMode {
         Launcher launcher = new Launcher(hardwareMap);
         Intake intake = new Intake(hardwareMap);
         Feeder feeder = new Feeder(hardwareMap);
+
+        // Each toggle button's own memory. These match the Blocks variables
+        // named in the comments, including their starting values.
+        boolean spinButtonOn = true;     // Blocks "RightTrigger": starts on, because the launcher spins up at start
+        boolean intakeButtonOn = false;  // Blocks "LeftTrigger"
+        boolean ejectButtonOn = false;   // Blocks "LeftBumper"
+        // Blocks never gave "A" a starting value, so the FIRST press of A took
+        // the "turn off" branch and stopped the launcher. Starting this as true
+        // keeps that behavior: the first A press stops, the second reverses.
+        boolean reverseButtonOn = true;  // Blocks "A"
 
         telemetry.addLine("Ready");
         telemetry.update();
@@ -79,10 +94,20 @@ public class CompetitionTeleOp extends LinearOpMode {
 
             // ---- Launcher ----
             if (gamepad1.rightTriggerWasPressed()) {
-                launcher.toggleSpin();
+                spinButtonOn = !spinButtonOn;
+                if (spinButtonOn) {
+                    launcher.spinUp();
+                } else {
+                    launcher.stop();
+                }
             }
             if (gamepad1.aWasPressed()) {
-                launcher.toggleReverse();
+                reverseButtonOn = !reverseButtonOn;
+                if (reverseButtonOn) {
+                    launcher.reverse();
+                } else {
+                    launcher.stop();
+                }
             }
 
             // ---- Feeder ----
@@ -93,10 +118,20 @@ public class CompetitionTeleOp extends LinearOpMode {
 
             // ---- Intake ----
             if (gamepad1.leftTriggerWasPressed()) {
-                intake.toggleIntake();
+                intakeButtonOn = !intakeButtonOn;
+                if (intakeButtonOn) {
+                    intake.intake();
+                } else {
+                    intake.stop();
+                }
             }
             if (gamepad1.leftBumperWasPressed()) {
-                intake.toggleEject();
+                ejectButtonOn = !ejectButtonOn;
+                if (ejectButtonOn) {
+                    intake.eject();
+                } else {
+                    intake.stop();
+                }
             }
 
             // ---- Driver Station display ----

@@ -50,24 +50,6 @@ public class Launcher {
         state = State.STOPPED;
     }
 
-    /** Spinning -> stopped; anything else -> spinning. */
-    public void toggleSpin() {
-        if (state == State.SPINNING) {
-            stop();
-        } else {
-            spinUp();
-        }
-    }
-
-    /** Reversing -> stopped; anything else -> reversing. */
-    public void toggleReverse() {
-        if (state == State.REVERSING) {
-            stop();
-        } else {
-            reverse();
-        }
-    }
-
     public State getState() {
         return state;
     }

@@ -21,7 +21,7 @@ onbotjava/org/firstinspires/ftc/teamcode/
 
 - finds its motors and servos by name, and sets them up, in its constructor
 - has methods named for what the mechanism does (`launcher.spinUp()`,
-  `intake.toggleEject()`, `feeder.feed()`)
+  `intake.eject()`, `feeder.feed()`)
 - keeps its numbers (speeds, positions, times) as named constants at the top
   of the file, so tuning only ever touches that one file
 - never reads the gamepad

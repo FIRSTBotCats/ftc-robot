@@ -62,24 +62,6 @@ public class Intake {
         state = State.OFF;
     }
 
-    /** Intaking -> off; anything else -> intaking. */
-    public void toggleIntake() {
-        if (state == State.INTAKING) {
-            stop();
-        } else {
-            intake();
-        }
-    }
-
-    /** Ejecting -> off; anything else -> ejecting. */
-    public void toggleEject() {
-        if (state == State.EJECTING) {
-            stop();
-        } else {
-            eject();
-        }
-    }
-
     public State getState() {
         return state;
     }
