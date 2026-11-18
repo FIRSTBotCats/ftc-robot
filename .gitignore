@@ -4,3 +4,7 @@ BotCats_Project_Management_Prompt.md
 
 # macOS
 .DS_Store
+
+# IntelliJ / Android Studio project files
+.idea/
+*.iml
