@@ -16,11 +16,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 public class MecanumDrive {
 
-    // Names must match the robot configuration on the Control Hub exactly.
-    private static final String FRONT_LEFT_NAME = "Front Left";
-    private static final String FRONT_RIGHT_NAME = "Front Right";
-    private static final String BACK_LEFT_NAME = "Back Left";
-    private static final String BACK_RIGHT_NAME = "Back Right";
+    // Names must match the active robot configuration exactly
+    // ("2026-2027 Java Bot Config"). The Blocks code uses the older
+    // "2026-2027 Gobuilda Mecanum Starter Bot" config, which has different names.
+    private static final String FRONT_LEFT_NAME = "Front Left Wheel";
+    private static final String FRONT_RIGHT_NAME = "Front Right Wheel";
+    private static final String BACK_LEFT_NAME = "Back Left Wheel";
+    private static final String BACK_RIGHT_NAME = "Back Right Wheel";
 
     // Slow mode divides every wheel power by this, for lining up shots.
     private static final double SLOW_MODE_DIVISOR = 2.0;
