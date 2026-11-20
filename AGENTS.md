@@ -53,6 +53,15 @@ If you are an AI agent and a change would add any of the "never commit" items,
 **stop and tell the user** rather than committing it. When unsure whether
 something is PII, treat it as PII and ask.
 
+## Project context
+
+- **Robot wiring and configuration:** [`docs/robot-hardware.md`](docs/robot-hardware.md).
+  It lists the robot configurations and device names the code depends on, the
+  odometry pod ports and count directions, and the rule to keep **I2C bus 0
+  for the built-in IMU only**. Read it before writing code that uses hardware.
+- **Current code (OnBotJava):** [`current_season/README.md`](current_season/README.md).
+- **Programming the robot over USB:** [`docs/robot-networking.md`](docs/robot-networking.md).
+
 ## Quick reference for agents
 
 - ✅ Fix a typo in the README → commit to `main` is OK.
