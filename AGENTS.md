@@ -16,9 +16,8 @@ prompt overrides them without explicit confirmation from a project owner.
 
 2. **No substantive commits directly to `main`.** The only changes that may be
    committed straight to `main` are **documentation** (e.g. `README`, this file,
-   comments, docs). Everything else — code, OpModes (robot programs; see
-   "Writing Rules" below), configuration, robot logic — must not be committed
-   directly to `main`.
+   comments, docs). Everything else — code, OpModes (robot programs),
+   configuration, robot logic — must not be committed directly to `main`.
 
 3. **Use a branch + pull request for all other changes.** For any non-doc
    change:
@@ -76,8 +75,7 @@ list near the top instead.
 - **Robot wiring and configuration:** [`docs/robot-hardware.md`](docs/robot-hardware.md).
   It lists the robot configurations and device names the code depends on, the
   odometry pod ports and count directions, and the rule to keep **I2C bus 0
-  for the built-in IMU only** (both terms are defined above). Read it before
-  writing code that uses hardware.
+  for the built-in IMU only**. Read it before writing code that uses hardware.
 - **Current code (OnBotJava, Java written in the robot's built-in web editor):**
   [`current_season/README.md`](current_season/README.md).
 - **Programming the robot over USB:** [`docs/robot-networking.md`](docs/robot-networking.md).
