@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedro;
 
+import com.pedropathing.algorithm.Foresight;
 import com.pedropathing.revhub.drivetrains.Mecanum;
 import com.pedropathing.revhub.localizers.TwoWheelLocalizer;
 import com.pedropathing.tuning.autotune.Procedure;
@@ -43,14 +44,12 @@ public class Tuning {
                 hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig));
     }
 
-    // Driving and localization tests. The path-following tests need the
-    // Foresight algorithm: once Constants has a foresightConfig, replace the
-    // final null with:  () -> new Foresight(Constants.foresightConfig)
+    // Driving, localization, and path-following tests (Line, Curve, Hold, ...).
     @Tuner
     public static Procedure tests() {
         return new Tests(
                 hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig),
                 hardwareMap -> new TwoWheelLocalizer(hardwareMap, Constants.localizerConfig),
-                null);
+                () -> new Foresight(Constants.foresightConfig));
     }
 }

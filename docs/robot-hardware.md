@@ -95,8 +95,9 @@ robot are in `current_season/TeamCode/.../pedro/Constants.java`:
   localizer, using the forward pod as the **x pod**, the sideways pod as the
   **y pod**, and the `imu` with the hub's LEFT/UP mounting.
 - **Measured by AutoTune (2026-11-20):** pod ticks-per-inch and pod offsets (forward pod
-  6.2 in left of center, sideways pod 6.9 in behind). Still to do: the Foresight
-  (path-following) speed and braking values. See `current_season/README.md`.
+  6.2 in left of center, sideways pod 6.9 in behind), and the Foresight
+  (path-following) speed and braking values: about 61 in/s top speed forward
+  and 49 in/s strafing. See `current_season/README.md`.
 
 **Pedro's field coordinates:** distances in **inches**, with (0, 0) at the
 field's bottom-left corner and the field 144 × 144 in. **x** increases to the
