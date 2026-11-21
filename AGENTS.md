@@ -76,9 +76,34 @@ list near the top instead.
   It lists the robot configurations and device names the code depends on, the
   odometry pod ports and count directions, and the rule to keep **I2C bus 0
   for the built-in IMU only**. Read it before writing code that uses hardware.
-- **Current code (OnBotJava, Java written in the robot's built-in web editor):**
-  [`current_season/README.md`](current_season/README.md).
+- **Current code:** [`current_season/README.md`](current_season/README.md).
+  `current_season/` is an Android Studio project (the FTC SDK plus Pedro
+  Pathing, a path-following library for Autonomous). Robot settings for Pedro
+  live in `TeamCode/.../pedro/Constants.java`.
 - **Programming the robot over USB:** [`docs/robot-networking.md`](docs/robot-networking.md).
+
+## Claude Code setup: building the robot code
+
+AI agents need permission to run **Gradle**, the build tool Android Studio
+uses, to compile and install the robot code. The shared
+[`.claude/settings.json`](.claude/settings.json) allows the Gradle wrapper:
+
+```json
+{ "permissions": { "allow": ["Bash(./gradlew *)"] } }
+```
+
+That file applies when Claude Code is started inside `botcats/`. Each person
+also needs **`JAVA_HOME`**, the location of Java on their own computer. Put it
+in `.claude/settings.local.json`, which git ignores because the path differs
+per machine. Use the Java that comes with Android Studio:
+
+```json
+{ "env": { "JAVA_HOME": "/Applications/Android Studio.app/Contents/jbr/Contents/Home" } }
+```
+
+On Windows, the path is usually `C:\Program Files\Android\Android Studio\jbr`
+(inside the JSON file, write each `\` as `\\`).
+Agents run Gradle from inside `current_season/`, e.g. `./gradlew :TeamCode:assembleDebug`.
 
 ## Quick reference for agents
 

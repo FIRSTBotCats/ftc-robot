@@ -18,6 +18,10 @@ SDK/OS version) and serves everything at:
 
 - **AP IP address:** `192.168.43.1`
 - **Program & Manage web interface (OnBotJava / Blocks):** `http://192.168.43.1:8080`
+- **Pedro Pathing AutoTune** (the page that measures the robot for our Autonomous
+  path-following library; only with our Android Studio build installed):
+  `http://192.168.43.1:10158`. Over USB, run `./scripts/connect-robot.sh --autotune`
+  and open `http://localhost:10158`.
 
 When the laptop joins that access point, it's on the robot's isolated
 network with no path to the internet. That's the tradeoff we're hitting.

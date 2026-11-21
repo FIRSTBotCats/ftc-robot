@@ -11,6 +11,10 @@
 #   ./scripts/connect-robot.sh --no-open    # connect but don't open a browser
 #   ./scripts/connect-robot.sh --stop       # tear the tunnel down
 #   ./scripts/connect-robot.sh --port 8081  # use a different local port
+#   ./scripts/connect-robot.sh --autotune   # also open Pedro Pathing's AutoTune page
+#
+# AutoTune is the webpage Pedro Pathing (our Autonomous path-following library)
+# uses to measure the robot. The robot serves it on port 10158.
 #
 # Background and other options (WiFi dongle, REV Hardware Client for Windows):
 # see docs/robot-networking.md.
@@ -22,6 +26,9 @@ HUB_PORT=8080
 LOCAL_PORT=30521
 OPEN_BROWSER=true
 STOP_ONLY=false
+# Pedro Pathing AutoTune runs on the hub at 10158; use the same port on the laptop.
+AUTOTUNE=false
+AUTOTUNE_PORT=10158
 
 # How long to wait for the hub to show up before giving troubleshooting advice.
 WAIT_SECONDS=20
@@ -44,6 +51,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --no-open) OPEN_BROWSER=false ;;
     --stop)    STOP_ONLY=true ;;
+    --autotune) AUTOTUNE=true ;;
     --port)
       [ $# -ge 2 ] || die "--port needs a number, e.g. --port 8081"
       LOCAL_PORT="$2"
@@ -95,6 +103,8 @@ ADB="$(find_adb)" || die "Couldn't find adb. Install it with:
 # --- stop mode ----------------------------------------------------------------
 if [ "$STOP_ONLY" = true ]; then
   "$ADB" forward --remove "tcp:$LOCAL_PORT" 2>/dev/null
+  # Close the AutoTune tunnel too, if one was opened; harmless if it wasn't.
+  "$ADB" forward --remove "tcp:$AUTOTUNE_PORT" 2>/dev/null
   ok "Tunnel on port $LOCAL_PORT closed. (The robot itself is untouched.)"
   exit 0
 fi
@@ -180,6 +190,19 @@ fi
 URL="http://localhost:$LOCAL_PORT"
 ok "Tunnel open: $URL  →  robot's port $HUB_PORT"
 
+# --- optional: Pedro Pathing AutoTune -------------------------------------------
+# AutoTune only answers when the Android Studio build (with Pedro Pathing) is on
+# the robot, so we just open the tunnel and don't wait for the page.
+if [ "$AUTOTUNE" = true ]; then
+  "$ADB" -s "$SERIAL" forward --remove "tcp:$AUTOTUNE_PORT" 2>/dev/null
+  if "$ADB" -s "$SERIAL" forward "tcp:$AUTOTUNE_PORT" "tcp:$AUTOTUNE_PORT" >/dev/null; then
+    AUTOTUNE_URL="http://localhost:$AUTOTUNE_PORT"
+    ok "AutoTune tunnel open: $AUTOTUNE_URL  →  robot's port $AUTOTUNE_PORT"
+  else
+    die "Couldn't open the AutoTune tunnel on port $AUTOTUNE_PORT. Is something else using it?"
+  fi
+fi
+
 # --- confirm the console actually answers -------------------------------------
 # A forward can succeed while the Robot Controller app is still booting, so poll
 # the console rather than sending the student to a blank page.
@@ -198,6 +221,8 @@ if command -v curl >/dev/null 2>&1; then
 fi
 
 # --- open the browser ---------------------------------------------------------
+# With --autotune, open the AutoTune page instead of the console.
+[ "$AUTOTUNE" = true ] && URL="$AUTOTUNE_URL"
 if [ "$OPEN_BROWSER" = true ] && command -v open >/dev/null 2>&1; then
   open "$URL"
   say ""

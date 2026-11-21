@@ -8,3 +8,6 @@ BotCats_Project_Management_Prompt.md
 # IntelliJ / Android Studio project files
 .idea/
 *.iml
+
+# Claude Code personal settings (machine-specific, e.g. JAVA_HOME)
+.claude/settings.local.json
