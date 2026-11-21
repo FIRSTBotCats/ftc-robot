@@ -16,47 +16,51 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 public class MecanumDrive {
 
-    // Names must match the robot configuration on the Control Hub exactly.
-    private static final String FRONT_LEFT_NAME = "Front Left";
-    private static final String FRONT_RIGHT_NAME = "Front Right";
-    private static final String BACK_LEFT_NAME = "Back Left";
-    private static final String BACK_RIGHT_NAME = "Back Right";
+    // Names must match the active robot configuration exactly
+    // ("2026-2027 Java Bot Config"). The Blocks code uses the older
+    // "2026-2027 Gobilda Mecanum Starter Bot" config, which has different names.
+    // "WHEEL" is in each name so they aren't confused with the odometry pods,
+    // which also have positional names like "Back Left Odometry Pod".
+    private static final String FRONT_LEFT_WHEEL_NAME = "Front Left Wheel";
+    private static final String FRONT_RIGHT_WHEEL_NAME = "Front Right Wheel";
+    private static final String BACK_LEFT_WHEEL_NAME = "Back Left Wheel";
+    private static final String BACK_RIGHT_WHEEL_NAME = "Back Right Wheel";
 
     // Slow mode divides every wheel power by this, for lining up shots.
     private static final double SLOW_MODE_DIVISOR = 2.0;
 
-    private final DcMotorEx frontLeft;
-    private final DcMotorEx frontRight;
-    private final DcMotorEx backLeft;
-    private final DcMotorEx backRight;
+    private final DcMotorEx frontLeftWheel;
+    private final DcMotorEx frontRightWheel;
+    private final DcMotorEx backLeftWheel;
+    private final DcMotorEx backRightWheel;
 
     private boolean slowMode = false;
 
     public MecanumDrive(HardwareMap hardwareMap) {
-        frontLeft = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_NAME);
-        frontRight = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_NAME);
-        backLeft = hardwareMap.get(DcMotorEx.class, BACK_LEFT_NAME);
-        backRight = hardwareMap.get(DcMotorEx.class, BACK_RIGHT_NAME);
+        frontLeftWheel = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_WHEEL_NAME);
+        frontRightWheel = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_WHEEL_NAME);
+        backLeftWheel = hardwareMap.get(DcMotorEx.class, BACK_LEFT_WHEEL_NAME);
+        backRightWheel = hardwareMap.get(DcMotorEx.class, BACK_RIGHT_WHEEL_NAME);
 
         // The left motors are mounted facing the other way, so reverse them
         // to make positive power drive every wheel forward.
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        for (DcMotorEx motor : new DcMotorEx[] {frontLeft, frontRight, backLeft, backRight}) {
-            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        for (DcMotorEx wheel : new DcMotorEx[] {frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel}) {
+            wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             // BRAKE stops the robot quickly instead of coasting when the stick is released.
-            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
         // TODO: The Blocks code tuned ONLY the back-left wheel's PIDF. It was
         // probably meant for the launcher motor. It's copied here so this port
         // drives the same as Blocks. Test removing it and check whether the
         // robot still drives straight.
-        backLeft.setVelocityPIDFCoefficients(10, 0, 0, 13.5);
+        backLeftWheel.setVelocityPIDFCoefficients(10, 0, 0, 13.5);
     }
 
     /**
@@ -73,10 +77,10 @@ public class MecanumDrive {
         double speedDivisor = slowMode ? SLOW_MODE_DIVISOR : 1.0;
         double scale = denominator * speedDivisor;
 
-        frontLeft.setPower((forward + strafe + turn) / scale);
-        frontRight.setPower((forward - strafe - turn) / scale);
-        backLeft.setPower((forward - strafe + turn) / scale);
-        backRight.setPower((forward + strafe - turn) / scale);
+        frontLeftWheel.setPower((forward + strafe + turn) / scale);
+        frontRightWheel.setPower((forward - strafe - turn) / scale);
+        backLeftWheel.setPower((forward - strafe + turn) / scale);
+        backRightWheel.setPower((forward + strafe - turn) / scale);
     }
 
     public void stop() {

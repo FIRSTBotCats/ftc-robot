@@ -8,12 +8,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
- * The flywheel that shoots game pieces (the "Outake Motor" in the robot config).
+ * The flywheel that shoots game pieces.
  */
 public class Launcher {
 
-    // Spelled "Outake" to match the robot configuration on the Control Hub.
-    private static final String MOTOR_NAME = "Outake Motor";
+    // Must match "2026-2027 Java Bot Config". (The old Blocks config calls this
+    // motor "Outake Motor".)
+    private static final String MOTOR_NAME = "Launcher Motor";
 
     // Flywheel speed in encoder ticks per second. Tuned at qualifiers.
     public static final double SHOOTING_VELOCITY = 1040;
