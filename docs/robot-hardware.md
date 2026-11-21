@@ -16,8 +16,9 @@ Keep this up to date when the wiring or robot configuration changes.
 - **OpMode:** one program the robot can run, chosen on the Driver Station.
   **TeleOp** OpModes are driver-controlled; **Autonomous** OpModes run on
   their own. **Init** is the button that loads an OpMode before pressing Start.
-- **Blocks / OnBotJava:** the two ways we program the robot in a web browser,
-  with drag-and-drop blocks or with Java code.
+- **Blocks / OnBotJava:** the two ways to program the robot in a web browser,
+  with drag-and-drop blocks or with Java code. Our Java code is now built in
+  **Android Studio** instead (see `current_season/README.md`).
 - **Encoder:** a sensor that counts how far a shaft has turned.
 - **Odometry pod:** a small unpowered wheel with an encoder that rolls along
   the floor, so the code can measure how far the robot has moved.
@@ -34,7 +35,7 @@ top of the Driver Station's main screen.
 
 | Config | Used by | Wheel names | Launcher name |
 |---|---|---|---|
-| **2026-2027 Java Bot Config** | OnBotJava code in `current_season/` | `Front Left Wheel`, `Back Left Wheel`, `Front Right Wheel`, `Back Right Wheel` | `Launcher Motor` |
+| **2026-2027 Java Bot Config** | Java code in `current_season/` (Android Studio) | `Front Left Wheel`, `Back Left Wheel`, `Front Right Wheel`, `Back Right Wheel` | `Launcher Motor` |
 | 2026-2027 Gobilda Mecanum Starter Bot | Blocks OpModes from the 2026-11-15 qualifiers | `Front Left`, `Back Left`, `Front Right`, `Back Right` | `Outake Motor` |
 
 If the wrong config is active, the OpMode fails at **Init** with a "can't find
@@ -77,11 +78,30 @@ Two goBILDA odometry pods near the back wheels:
   and every other encoder port is used by a motor that needs its encoder.
 - Turning the robot also moves the pods, because they're not at the robot's
   center. The odometry code has to subtract that out, using each pod's
-  distance from the center (not measured yet).
+  distance from the center. Pedro Pathing's AutoTune measures these
+  distances ("pod offsets") for us.
 - The pods and the IMU together are what Pedro Pathing, the path-following
-  library we plan to use for Autonomous, needs to track the robot's position.
+  library we use for Autonomous, needs to track the robot's position.
 - `OdometryPodTest` shows both counts and the IMU heading, for checking the
   wiring.
+
+## Pedro Pathing
+
+Pedro Pathing drives the robot along paths in Autonomous. Its settings for our
+robot are in `current_season/TeamCode/.../pedro/Constants.java`:
+
+- **Drivetrain:** the four wheel names and directions (same as `MecanumDrive.java`).
+- **Localizer** (Pedro's code for tracking where the robot is): Pedro's "Two Wheel"
+  localizer, using the forward pod as the **x pod**, the sideways pod as the
+  **y pod**, and the `imu` with the hub's LEFT/UP mounting.
+- **Measured by AutoTune:** pod ticks-per-inch, pod offsets, and the Foresight
+  (path-following) speed and braking values. See `current_season/README.md`.
+
+**Pedro's field coordinates:** distances in **inches**, with (0, 0) at the
+field's bottom-left corner and the field 144 × 144 in. **x** increases to the
+right and **y** increases up the field. Heading is in **radians**: 0 faces
+right, and counterclockwise is positive (π/2 = facing up the field). This is
+different from the FTC SDK's own coordinates, which put (0, 0) at the center.
 
 ## ⚠️ Keep I2C bus 0 for the built-in IMU only
 
