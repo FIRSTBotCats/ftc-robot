@@ -13,7 +13,15 @@ import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
 /**
  * Checks that both odometry pods and the IMU are wired and configured.
  *
+ *   Odometry pod: a small unpowered wheel with an encoder (a turn-counting
+ *     sensor) that rolls on the floor, to measure how far the robot moved.
+ *   IMU (Inertial Measurement Unit): the gyroscope built into the Control Hub,
+ *     which measures which way the robot is facing (its "heading").
+ *   TeleOp: a driver-controlled OpMode (robot program). This test is a TeleOp
+ *     so you can drive while watching the numbers.
+ *
  * Needs the "2026-2027 Java Bot Config" robot configuration.
+ * Results so far: docs/robot-hardware.md.
  *
  * How to test:
  *   1. Drive slowly FORWARD with the left stick. The LEFT pod (forward-facing)
@@ -37,14 +45,18 @@ public class OdometryPodTest extends LinearOpMode {
     private static final String RIGHT_POD_NAME = "Back Right Odometry Pod";  // sideways, Expansion Hub port 3
     private static final String IMU_NAME = "imu";
 
-    // TODO: Set these to match how the Control Hub is mounted on the robot.
-    // LOGO = which way the REV logo on the hub faces; USB = which way its USB ports face.
-    // If the hub lies flat with the logo up, only USB_DIRECTION matters for heading.
+    // How the Control Hub is mounted on the robot. The IMU is built INTO the
+    // Control Hub, so the code must know which way the hub faces to turn the
+    // gyro's readings into the robot's heading. The gyro and the odometry pods
+    // together are what Pedro Pathing (the path-following library we plan to
+    // use) needs to know where the robot is during Autonomous, so these must be right.
+    //   LOGO = which way the REV logo on the hub faces
+    //   USB  = which way the hub's USB ports face
     // If PITCH or ROLL below are far from 0 while the robot sits flat, these are wrong.
     private static final RevHubOrientationOnRobot.LogoFacingDirection LOGO_DIRECTION =
-            RevHubOrientationOnRobot.LogoFacingDirection.UP;
+            RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
     private static final RevHubOrientationOnRobot.UsbFacingDirection USB_DIRECTION =
-            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+            RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
     // Drive gently so the pod counts are easy to watch.
     private static final double DRIVE_SPEED = 0.3;

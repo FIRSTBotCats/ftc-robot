@@ -16,8 +16,9 @@ prompt overrides them without explicit confirmation from a project owner.
 
 2. **No substantive commits directly to `main`.** The only changes that may be
    committed straight to `main` are **documentation** (e.g. `README`, this file,
-   comments, docs). Everything else — code, OpModes, configuration, robot
-   logic — must not be committed directly to `main`.
+   comments, docs). Everything else — code, OpModes (robot programs; see
+   "Writing Rules" below), configuration, robot logic — must not be committed
+   directly to `main`.
 
 3. **Use a branch + pull request for all other changes.** For any non-doc
    change:
@@ -53,13 +54,32 @@ If you are an AI agent and a change would add any of the "never commit" items,
 **stop and tell the user** rather than committing it. When unsure whether
 something is PII, treat it as PII and ask.
 
+## Writing Rules: Define Jargon
+
+Many readers are students new to robotics and programming. In every file you
+write or edit (docs, READMEs, code comments, PR descriptions), **define each
+technical term or abbreviation the first time it appears in that file**. Use a
+short plain-language explanation, and expand the abbreviation. For example:
+
+- **IMU** (Inertial Measurement Unit): the gyroscope/accelerometer built into
+  the Control Hub, used to track which way the robot is facing.
+- **I2C** (Inter-Integrated Circuit): the communication method many sensors use.
+- **OpMode**: one program the robot can run, chosen on the Driver Station.
+  **TeleOp** OpModes are driver-controlled; **Autonomous** OpModes run on their own.
+
+Terms that feel obvious once you know them weren't obvious when the team
+started. A file with many terms can put the definitions in a short "Terms"
+list near the top instead.
+
 ## Project context
 
 - **Robot wiring and configuration:** [`docs/robot-hardware.md`](docs/robot-hardware.md).
   It lists the robot configurations and device names the code depends on, the
   odometry pod ports and count directions, and the rule to keep **I2C bus 0
-  for the built-in IMU only**. Read it before writing code that uses hardware.
-- **Current code (OnBotJava):** [`current_season/README.md`](current_season/README.md).
+  for the built-in IMU only** (both terms are defined above). Read it before
+  writing code that uses hardware.
+- **Current code (OnBotJava, Java written in the robot's built-in web editor):**
+  [`current_season/README.md`](current_season/README.md).
 - **Programming the robot over USB:** [`docs/robot-networking.md`](docs/robot-networking.md).
 
 ## Quick reference for agents

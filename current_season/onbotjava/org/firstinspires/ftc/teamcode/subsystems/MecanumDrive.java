@@ -18,11 +18,13 @@ public class MecanumDrive {
 
     // Names must match the active robot configuration exactly
     // ("2026-2027 Java Bot Config"). The Blocks code uses the older
-    // "2026-2027 Gobuilda Mecanum Starter Bot" config, which has different names.
-    private static final String FRONT_LEFT_NAME = "Front Left Wheel";
-    private static final String FRONT_RIGHT_NAME = "Front Right Wheel";
-    private static final String BACK_LEFT_NAME = "Back Left Wheel";
-    private static final String BACK_RIGHT_NAME = "Back Right Wheel";
+    // "2026-2027 Gobilda Mecanum Starter Bot" config, which has different names.
+    // "WHEEL" is in each name so they aren't confused with the odometry pods,
+    // which also have positional names like "Back Left Odometry Pod".
+    private static final String FRONT_LEFT_WHEEL_NAME = "Front Left Wheel";
+    private static final String FRONT_RIGHT_WHEEL_NAME = "Front Right Wheel";
+    private static final String BACK_LEFT_WHEEL_NAME = "Back Left Wheel";
+    private static final String BACK_RIGHT_WHEEL_NAME = "Back Right Wheel";
 
     // Slow mode divides every wheel power by this, for lining up shots.
     private static final double SLOW_MODE_DIVISOR = 2.0;
@@ -35,10 +37,10 @@ public class MecanumDrive {
     private boolean slowMode = false;
 
     public MecanumDrive(HardwareMap hardwareMap) {
-        frontLeft = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_NAME);
-        frontRight = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_NAME);
-        backLeft = hardwareMap.get(DcMotorEx.class, BACK_LEFT_NAME);
-        backRight = hardwareMap.get(DcMotorEx.class, BACK_RIGHT_NAME);
+        frontLeft = hardwareMap.get(DcMotorEx.class, FRONT_LEFT_WHEEL_NAME);
+        frontRight = hardwareMap.get(DcMotorEx.class, FRONT_RIGHT_WHEEL_NAME);
+        backLeft = hardwareMap.get(DcMotorEx.class, BACK_LEFT_WHEEL_NAME);
+        backRight = hardwareMap.get(DcMotorEx.class, BACK_RIGHT_WHEEL_NAME);
 
         // The left motors are mounted facing the other way, so reverse them
         // to make positive power drive every wheel forward.

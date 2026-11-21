@@ -12,7 +12,7 @@ onbotjava/org/firstinspires/ftc/teamcode/
 ├── CompetitionAuto.java       autonomous routine
 └── subsystems/                one class per mechanism on the robot
     ├── MecanumDrive.java      the four drive wheels
-    ├── Launcher.java          the flywheel ("Outake Motor")
+    ├── Launcher.java          the flywheel ("Launcher Motor")
     ├── Feeder.java            the "Middle Stage" servo that feeds the launcher
     └── Intake.java            intake motor + two intake servos
 ```
