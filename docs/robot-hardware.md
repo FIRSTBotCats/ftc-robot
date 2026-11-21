@@ -63,12 +63,12 @@ the heading will be wrong.
 
 ## Odometry pods (installed 2026-11-19)
 
-Two goBILDA odometry pods near the back wheels:
+Two goBILDA **4-Bar** odometry pods near the back wheels (about 505 encoder counts per inch):
 
 | Pod | Plugged into | Faces | Count direction |
 |---|---|---|---|
 | Back Left Odometry Pod | Control Hub **encoder** port 3 | Forward (measures forward/back) | Goes **up** driving forward |
-| Back Right Odometry Pod | Expansion Hub **encoder** port 3 | Sideways (measures strafing) | Goes **down** strafing right, so **reverse it in code** |
+| Back Right Odometry Pod | Expansion Hub **encoder** port 3 | Sideways (measures strafing) | Goes **down** strafing right (= **up** strafing left, which Pedro treats as FORWARD) |
 
 - The pods use **motor encoder ports**, not the digital, analog or I2C ports.
   The code reads them as if they were motors: `hardwareMap.get(DcMotor.class, ...)`
@@ -94,7 +94,8 @@ robot are in `current_season/TeamCode/.../pedro/Constants.java`:
 - **Localizer** (Pedro's code for tracking where the robot is): Pedro's "Two Wheel"
   localizer, using the forward pod as the **x pod**, the sideways pod as the
   **y pod**, and the `imu` with the hub's LEFT/UP mounting.
-- **Measured by AutoTune:** pod ticks-per-inch, pod offsets, and the Foresight
+- **Measured by AutoTune (2026-11-20):** pod ticks-per-inch and pod offsets (forward pod
+  6.2 in left of center, sideways pod 6.9 in behind). Still to do: the Foresight
   (path-following) speed and braking values. See `current_season/README.md`.
 
 **Pedro's field coordinates:** distances in **inches**, with (0, 0) at the

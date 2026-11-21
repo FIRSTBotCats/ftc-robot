@@ -29,8 +29,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  */
 public class Constants {
 
-    // The four drive wheels. Same names and directions as subsystems/MecanumDrive.java.
-    // The AutoTune "Mecanum" procedure double-checks the directions.
+    // The four drive wheels. Same names and directions as subsystems/MecanumDrive.java;
+    // AutoTune's "Mecanum" procedure confirmed the directions on 2026-11-20.
     public static MecanumConfig drivetrainConfig = new MecanumConfig(c -> {
         c.frontLeftName.set("Front Left Wheel");
         c.backLeftName.set("Back Left Wheel");
@@ -55,14 +55,19 @@ public class Constants {
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP)));
 
-        // From OdometryPodTest: the forward pod counts UP driving forward, and the
-        // sideways pod counts DOWN strafing right. AutoTune's "Two Wheel" procedure
-        // confirms these using Pedro's own direction rules, so trust its result.
+        // Measured by AutoTune's "Two Wheel" procedure on 2026-11-20.
+        // Inches per encoder count. About 506 and 499 counts per inch, which
+        // matches goBILDA's 4-Bar odometry pods (spec: about 505).
+        c.forwardTicksToInches.set(0.001977436636992014);
+        c.strafeTicksToInches.set(0.002003292244660016);
+        // Where each pod is, in inches from the robot's center of rotation:
+        // the forward pod is 6.2 in to the LEFT, the sideways pod 6.9 in BEHIND.
+        c.xPodOffset.set(6.222045492441513);
+        c.yPodOffset.set(-6.879513718753594);
+        // Both FORWARD in Pedro's coordinates, where +y points LEFT. (OdometryPodTest
+        // saw the sideways pod count down moving right; that's the same thing.)
         c.xPodDirection.set(Encoder.FORWARD);
-        c.yPodDirection.set(Encoder.REVERSE);
-
-        // TODO: from AutoTune ("Two Wheel" procedure): forwardTicksToInches,
-        // strafeTicksToInches, xPodOffset, yPodOffset. Paste them here.
+        c.yPodDirection.set(Encoder.FORWARD);
     });
 
     // TODO: from AutoTune ("Foresight" procedure, run AFTER the Two Wheel values
